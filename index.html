@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>John Vincent Farrales — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy-deep:#0A2647;
+    --navy-mid:#123A63;
+    --navy-panel:#0E3057;
+    --line:#DCE9FB;
+    --line-dim:#8FAAC9;
+    --copper:#C97D4B;
+    --copper-bright:#E0966A;
+    --paper:#F3EFE3;
+    --ink:#1B2A3D;
+    --ink-soft:#4A5A70;
+    --serif-body: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --display: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--navy-deep);
+    color:var(--line);
+    font-family:var(--serif-body);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  a{color:var(--copper-bright);}
+
+  :focus-visible{
+    outline:2px solid var(--copper-bright);
+    outline-offset:3px;
+  }
+
+  .wrap{
+    max-width:900px;
+    margin:0 auto;
+    padding:0 32px;
+  }
+
+  /* ---------- Ruled margin motif ---------- */
+  .ruled{
+    position:relative;
+  }
+  .ruled::before{
+    content:"";
+    position:absolute;
+    left:0;
+    top:0;
+    bottom:0;
+    width:1px;
+    background:linear-gradient(to bottom, transparent, var(--line-dim) 8%, var(--line-dim) 92%, transparent);
+    opacity:0.35;
+  }
+
+  /* ---------- Header / Nav ---------- */
+  header{
+    position:sticky;
+    top:0;
+    z-index:20;
+    background:rgba(10,38,71,0.88);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid rgba(220,233,251,0.12);
+  }
+  .nav{
+    max-width:900px;
+    margin:0 auto;
+    padding:18px 32px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+  }
+  .nav-name{
+    font-family:var(--display);
+    font-weight:600;
+    font-size:1.05rem;
+    letter-spacing:0.01em;
+  }
+  .nav-links{
+    display:flex;
+    gap:28px;
+    list-style:none;
+    margin:0;
+    padding:0;
+    font-size:0.92rem;
+  }
+  .nav-links a{
+    color:var(--line);
+    text-decoration:none;
+    border-bottom:1px solid transparent;
+    padding-bottom:2px;
+    transition:border-color .2s ease, color .2s ease;
+  }
+  .nav-links a:hover{
+    color:var(--copper-bright);
+    border-bottom-color:var(--copper-bright);
+  }
+  @media (max-width:620px){
+    .nav-links{display:none;}
+  }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    position:relative;
+    padding:96px 32px 80px;
+    overflow:hidden;
+    border-bottom:1px solid rgba(220,233,251,0.12);
+  }
+  .hero-inner{
+    max-width:900px;
+    margin:0 auto;
+    position:relative;
+    z-index:2;
+  }
+  .hero-eyebrow{
+    font-family:var(--mono);
+    font-size:0.82rem;
+    color:var(--copper-bright);
+    margin:0 0 18px;
+  }
+  .hero h1{
+    font-family:var(--display);
+    font-weight:700;
+    font-size:clamp(2.4rem, 6vw, 4.1rem);
+    line-height:1.05;
+    margin:0 0 22px;
+    letter-spacing:-0.01em;
+    max-width:11ch;
+  }
+  .hero p.lede{
+    font-size:1.12rem;
+    color:var(--line);
+    max-width:56ch;
+    margin:0 0 34px;
+  }
+  .hero-cta{
+    display:flex;
+    gap:14px;
+    flex-wrap:wrap;
+  }
+  .btn{
+    font-family:var(--serif-body);
+    font-weight:500;
+    font-size:0.95rem;
+    padding:12px 22px;
+    border-radius:2px;
+    text-decoration:none;
+    display:inline-block;
+    transition:transform .18s ease, background .18s ease, border-color .18s ease;
+  }
+  .btn-primary{
+    background:var(--copper);
+    color:var(--navy-deep);
+    border:1px solid var(--copper);
+  }
+  .btn-primary:hover{
+    background:var(--copper-bright);
+    transform:translateY(-1px);
+  }
+  .btn-ghost{
+    background:transparent;
+    color:var(--line);
+    border:1px solid rgba(220,233,251,0.35);
+  }
+  .btn-ghost:hover{
+    border-color:var(--copper-bright);
+    color:var(--copper-bright);
+    transform:translateY(-1px);
+  }
+
+  /* Blueprint SVG stage */
+  .blueprint-stage{
+    position:absolute;
+    top:0;
+    right:-6%;
+    width:62%;
+    height:100%;
+    z-index:1;
+    opacity:0.9;
+  }
+  .blueprint-stage svg{
+    width:100%;
+    height:100%;
+  }
+  .bp-line{
+    fill:none;
+    stroke:var(--line-dim);
+    stroke-width:1.4;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+    stroke-dasharray:1400;
+    stroke-dashoffset:1400;
+    animation:draw 2.6s cubic-bezier(.65,.05,.36,1) forwards;
+  }
+  .bp-line.accent{
+    stroke:var(--copper);
+    stroke-width:1.6;
+  }
+  .bp-dot{
+    fill:var(--copper-bright);
+    opacity:0;
+    animation:dot-in .6s ease forwards;
+  }
+  .bp-label{
+    font-family:var(--mono);
+    font-size:9px;
+    fill:var(--line-dim);
+    opacity:0;
+    animation:label-in .6s ease forwards;
+  }
+  @keyframes draw{
+    to{stroke-dashoffset:0;}
+  }
+  @keyframes dot-in{
+    to{opacity:1;}
+  }
+  @keyframes label-in{
+    to{opacity:0.8;}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .bp-line{animation:none; stroke-dashoffset:0;}
+    .bp-dot, .bp-label{animation:none; opacity:1;}
+    html{scroll-behavior:auto;}
+  }
+
+  @media (max-width:760px){
+    .blueprint-stage{display:none;}
+    .hero h1{max-width:100%;}
+  }
+
+  /* ---------- Sections ---------- */
+  section{
+    padding:64px 0;
+    border-bottom:1px solid rgba(220,233,251,0.1);
+  }
+  section:last-of-type{border-bottom:none;}
+
+  .section-head{
+    display:grid;
+    grid-template-columns:200px 1fr;
+    gap:32px;
+    margin-bottom:36px;
+  }
+  .section-head h2{
+    font-family:var(--display);
+    font-weight:600;
+    font-size:1.5rem;
+    margin:0;
+    color:var(--line);
+  }
+  .section-head .section-note{
+    font-size:0.95rem;
+    color:var(--line-dim);
+    margin:0;
+    padding-top:4px;
+  }
+  @media (max-width:620px){
+    .section-head{grid-template-columns:1fr;}
+  }
+
+  .section-body{
+    padding-left:0;
+  }
+  @media (min-width:621px){
+    .section-body{
+      display:grid;
+      grid-template-columns:200px 1fr;
+      gap:32px;
+    }
+    .section-body > .spacer{display:block;}
+  }
+
+  p.about-text{
+    font-size:1.02rem;
+    color:var(--line);
+    max-width:62ch;
+    margin:0;
+  }
+
+  /* ---------- Skills ---------- */
+  .skill-groups{
+    display:grid;
+    gap:22px;
+  }
+  .skill-group h3{
+    font-family:var(--serif-body);
+    font-weight:600;
+    font-size:0.95rem;
+    margin:0 0 10px;
+    color:var(--copper-bright);
+  }
+  .skill-tags{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    padding:0;
+    margin:0;
+    list-style:none;
+  }
+  .skill-tags li{
+    font-size:0.86rem;
+    padding:6px 12px;
+    border:1px solid rgba(220,233,251,0.25);
+    border-radius:2px;
+    color:var(--line);
+  }
+
+  /* ---------- Experience timeline ---------- */
+  .timeline{
+    position:relative;
+    padding-left:26px;
+    border-left:1px solid rgba(220,233,251,0.25);
+  }
+  .timeline-item{
+    position:relative;
+    padding-bottom:38px;
+  }
+  .timeline-item:last-child{padding-bottom:0;}
+  .timeline-item::before{
+    content:"";
+    position:absolute;
+    left:-31px;
+    top:6px;
+    width:9px;
+    height:9px;
+    border-radius:50%;
+    background:var(--copper);
+    border:2px solid var(--navy-deep);
+    box-shadow:0 0 0 1px var(--copper);
+  }
+  .tl-role{
+    font-family:var(--display);
+    font-weight:600;
+    font-size:1.08rem;
+    margin:0 0 2px;
+    color:var(--line);
+  }
+  .tl-meta{
+    font-family:var(--mono);
+    font-size:0.8rem;
+    color:var(--copper-bright);
+    margin:0 0 12px;
+  }
+  .tl-list{
+    margin:0;
+    padding-left:18px;
+    color:var(--line);
+    font-size:0.95rem;
+  }
+  .tl-list li{margin-bottom:6px;}
+
+  /* ---------- Projects ---------- */
+  .projects{
+    display:grid;
+    gap:18px;
+  }
+  .project-card{
+    background:var(--navy-panel);
+    border:1px solid rgba(220,233,251,0.14);
+    border-radius:3px;
+    padding:22px 24px;
+    transition:border-color .2s ease, transform .2s ease;
+  }
+  .project-card:hover{
+    border-color:var(--copper);
+    transform:translateY(-2px);
+  }
+  .project-card h3{
+    font-family:var(--display);
+    font-weight:600;
+    font-size:1.05rem;
+    margin:0 0 8px;
+  }
+  .project-card p{
+    margin:0;
+    font-size:0.95rem;
+    color:var(--line-dim);
+  }
+
+  /* ---------- Education ---------- */
+  .edu-card{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  .edu-card h3{
+    font-family:var(--display);
+    font-weight:600;
+    font-size:1.05rem;
+    margin:0 0 4px;
+  }
+  .edu-card p{
+    margin:0;
+    color:var(--line-dim);
+    font-size:0.92rem;
+  }
+  .edu-year{
+    font-family:var(--mono);
+    font-size:0.85rem;
+    color:var(--copper-bright);
+  }
+
+  /* ---------- Contact / Footer ---------- */
+  .contact{
+    background:var(--paper);
+    color:var(--ink);
+    padding:72px 0 56px;
+    border-bottom:none;
+  }
+  .contact .wrap{max-width:900px;}
+  .contact h2{
+    font-family:var(--display);
+    font-weight:700;
+    font-size:clamp(1.9rem, 4vw, 2.6rem);
+    margin:0 0 16px;
+    color:var(--ink);
+    max-width:16ch;
+  }
+  .contact p.contact-lede{
+    max-width:52ch;
+    color:var(--ink-soft);
+    margin:0 0 34px;
+    font-size:1.02rem;
+  }
+  .contact-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
+    gap:22px;
+    margin-bottom:44px;
+  }
+  .contact-item{
+    border-top:1px solid rgba(27,42,61,0.18);
+    padding-top:12px;
+  }
+  .contact-item .label{
+    font-family:var(--mono);
+    font-size:0.78rem;
+    color:var(--copper);
+    display:block;
+    margin-bottom:6px;
+  }
+  .contact-item a, .contact-item span{
+    color:var(--ink);
+    text-decoration:none;
+    font-size:1rem;
+    font-weight:500;
+  }
+  .contact-item a:hover{color:var(--copper);}
+  footer.foot{
+    font-size:0.82rem;
+    color:var(--ink-soft);
+    border-top:1px solid rgba(27,42,61,0.18);
+    padding-top:20px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <span class="nav-name">J. V. Farrales</span>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="blueprint-stage" aria-hidden="true">
+    <svg viewBox="0 0 560 560" xmlns="http://www.w3.org/2000/svg">
+      <!-- quad frame -->
+      <path class="bp-line" style="animation-delay:.1s" d="M120 280 L440 280"/>
+      <path class="bp-line" style="animation-delay:.1s" d="M280 120 L280 440"/>
+      <path class="bp-line accent" style="animation-delay:.4s" d="M120 280 L200 200 L280 280 L360 200 L440 280 L360 360 L280 280 L200 360 Z"/>
+      <circle class="bp-dot" style="animation-delay:1.1s" cx="120" cy="280" r="5"/>
+      <circle class="bp-dot" style="animation-delay:1.2s" cx="440" cy="280" r="5"/>
+      <circle class="bp-dot" style="animation-delay:1.3s" cx="280" cy="120" r="5"/>
+      <circle class="bp-dot" style="animation-delay:1.4s" cx="280" cy="440" r="5"/>
+      <!-- flight path curve -->
+      <path class="bp-line" style="animation-delay:.7s" d="M60 460 C 160 420, 200 340, 280 300 S 420 200, 500 90"/>
+      <!-- orientation ring -->
+      <circle class="bp-line" style="animation-delay:.3s" cx="280" cy="280" r="150" stroke-dasharray="900" stroke-dashoffset="900"/>
+      <text class="bp-label" style="animation-delay:1.6s" x="330" y="185">PITCH</text>
+      <text class="bp-label" style="animation-delay:1.7s" x="90" y="255">ROLL</text>
+      <text class="bp-label" style="animation-delay:1.8s" x="440" y="420">YAW</text>
+      <text class="bp-label" style="animation-delay:1.9s" x="440" y="70">FC · STM32F411</text>
+    </svg>
+  </div>
+  <div class="hero-inner">
+    <p class="hero-eyebrow">Zambales, Philippines · Computer Science</p>
+    <h1>John Vincent Farrales</h1>
+    <p class="lede">I build things that fly and systems that keep offices running — from a self-taught drone assembled with no formal training to client casework handled for a remote law firm. Comfortable moving between a soldering iron and a document tracker.</p>
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="#projects">See the work</a>
+      <a class="btn btn-ghost" href="#contact">Get in touch</a>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>About</h2>
+      <p class="section-note">Where the technical and administrative sides meet</p>
+    </div>
+    <div class="section-body">
+      <div class="spacer"></div>
+      <p class="about-text">
+        I'm a Computer Science graduate with a background that spans programming, IoT and embedded systems, and administrative and legal support work. I've managed client documentation and correspondence inside a fast-paced legal office, and coordinated academic operations and instructional materials during a college engineering internship. Outside of work, I taught myself to design, program, assemble, and fly a drone from scratch, using nothing but online resources and repeated trial and error. I move comfortably between technical builds and admin-heavy roles, and I like it that way.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Skills</h2>
+      <p class="section-note">Tools and platforms I use regularly</p>
+    </div>
+    <div class="section-body">
+      <div class="spacer"></div>
+      <div class="skill-groups">
+        <div class="skill-group">
+          <h3>Programming</h3>
+          <ul class="skill-tags">
+            <li>Python</li><li>C++</li><li>HTML/CSS/JavaScript</li><li>Visual Basic</li>
+          </ul>
+        </div>
+        <div class="skill-group">
+          <h3>Technical / IoT</h3>
+          <ul class="skill-tags">
+            <li>Arduino IDE</li><li>ESP32 sensor prototyping</li><li>Random Forest (ML basics)</li><li>OpenGL basics</li>
+          </ul>
+        </div>
+        <div class="skill-group">
+          <h3>Networking &amp; systems</h3>
+          <ul class="skill-tags">
+            <li>Cisco Packet Tracer</li><li>Kali Linux basics</li><li>LAN/WAN/VPN fundamentals</li><li>Hardware &amp; system troubleshooting</li>
+          </ul>
+        </div>
+        <div class="skill-group">
+          <h3>Automation</h3>
+          <ul class="skill-tags">
+            <li>n8n workflow automation</li><li>Data logging to Google Sheets</li><li>Automated email replies</li><li>LLM-assisted response workflows</li>
+          </ul>
+        </div>
+        <div class="skill-group">
+          <h3>Legal &amp; client administration</h3>
+          <ul class="skill-tags">
+            <li>CLIO Manage &amp; Grow</li><li>Filevine</li><li>ChartSwap</li><li>PACER</li><li>HelloSign</li><li>Correspondence drafting</li>
+          </ul>
+        </div>
+        <div class="skill-group">
+          <h3>Tools &amp; platforms</h3>
+          <ul class="skill-tags">
+            <li>VS Code</li><li>Microsoft Office Suite</li><li>Google Workspace</li><li>Zoom</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Experience</h2>
+      <p class="section-note">Most recent first</p>
+    </div>
+    <div class="section-body">
+      <div class="spacer"></div>
+      <div class="timeline">
+        <div class="timeline-item">
+          <p class="tl-role">Virtual Assistant</p>
+          <p class="tl-meta">Bankruptcy Law Firm (Remote) · January 2026 – July 2026</p>
+          <ul class="tl-list">
+            <li>Followed up with clients to collect and complete required documentation, keeping cases on schedule.</li>
+            <li>Managed client files and case documentation using CLIO Manage and Grow, Filevine, and ChartSwap.</li>
+            <li>Retrieved and tracked court records via PACER, and processed signatures through HelloSign.</li>
+            <li>Drafted and responded to client and case-related emails, texts, and calls.</li>
+            <li>Prepared and mailed legal correspondence, including complaints, violation letters, and summons.</li>
+            <li>Provided assistive administrative support directly to the CEO on time-sensitive tasks.</li>
+          </ul>
+        </div>
+        <div class="timeline-item">
+          <p class="tl-role">Intern — College Program Office</p>
+          <p class="tl-meta">June 2023 – August 2024</p>
+          <ul class="tl-list">
+            <li>Supported the College Program Chairman with student communications, document handling, and academic coordination.</li>
+            <li>Prepared memos, managed enrollment data, and streamlined workflows using Google Workspace and Zoom.</li>
+            <li>Designed certificates, presentations, and event materials, enhanced with AI tools like ChatGPT and ElevenLabs.</li>
+            <li>Created worksheets and learning materials for freshmen covering web development and basic programming.</li>
+            <li>Handled daily admin tasks — email, scheduling, and data entry — using Copilot and DeepSeek.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Projects</h2>
+      <p class="section-note">Personal work, built to learn by doing</p>
+    </div>
+    <div class="section-body">
+      <div class="spacer"></div>
+      <div class="projects">
+        <div class="project-card">
+          <h3>Self-built drone</h3>
+          <p>Taught myself to design, program, assemble, and fly a drone from scratch — no formal training, just online tutorials and repeated trial and error until it flew.</p>
+        </div>
+        <div class="project-card">
+          <h3>Random Forest algorithm for soil testing and IoT</h3>
+          <p>An ESP32/Arduino-based system integrated with a Random Forest model to monitor soil quality in real time and generate data-driven fertilization recommendations.</p>
+        </div>
+        <div class="project-card">
+          <h3>Library management system</h3>
+          <p>A catalog and transaction management system for libraries, built with Visual Basic and Microsoft Access.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="education">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Education</h2>
+      <p class="section-note">&nbsp;</p>
+    </div>
+    <div class="section-body">
+      <div class="spacer"></div>
+      <div class="edu-card">
+        <div>
+          <h3>Bachelor of Science in Computer Science</h3>
+          <p>President Ramon Magsaysay State University</p>
+        </div>
+        <span class="edu-year">2021 – 2025</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div class="wrap">
+    <h2>Let's work together</h2>
+    <p class="contact-lede">Open to remote roles that draw on either side of what I do — technical builds or admin and client-facing support. Reach out any time.</p>
+    <div class="contact-grid">
+      <div class="contact-item">
+        <span class="label">Email</span>
+        <a href="mailto:farralesjohnvincent.28@gmail.com">farralesjohnvincent.28@gmail.com</a>
+      </div>
+      <div class="contact-item">
+        <span class="label">Phone</span>
+        <span>0968 323 2554</span>
+      </div>
+      <div class="contact-item">
+        <span class="label">Location</span>
+        <span>Candelaria, Zambales, Philippines</span>
+      </div>
+      <div class="contact-item">
+        <span class="label">Languages</span>
+        <span>English, Filipino</span>
+      </div>
+    </div>
+    <footer class="foot">John Vincent Farrales — Computer Science graduate, self-taught builder.</footer>
+  </div>
+</section>
+
+</body>
+</html>
